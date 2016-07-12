@@ -9,7 +9,7 @@ from accounts.models import Person
 class Coupon(models.Model):
     # Creator of coupon
     owner = models.ForeignKey(
-        Person,
+        'auth.User',
         on_delete=models.CASCADE,
         editable=False)
     title = models.CharField(max_length=100)

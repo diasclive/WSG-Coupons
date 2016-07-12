@@ -4,6 +4,8 @@ from .models import Coupon, Claim
 
 class ClaimInline(admin.TabularInline):
     model = Claim
+    fields = ('user', 'date_claimed')
+    readonly_fields = ('date_claimed',)
     extra = 1
 
 class CouponAdmin(admin.ModelAdmin):
