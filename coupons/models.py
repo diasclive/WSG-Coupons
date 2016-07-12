@@ -16,7 +16,7 @@ class Coupon(models.Model):
         default=timezone.now)
     # When the coupon becomes ready for use
     publish_date = models.DateTimeField(
-        blank=True, null=True)
+        default=timezone.now() + datetime.timedelta(days=1))
     # When this coupon expires
     end_date = models.DateTimeField(
         default=timezone.now)
@@ -30,7 +30,7 @@ class Coupon(models.Model):
         return self.publish_date <= timezone.now() <= self.end_date
     published.admin_order_field = 'publish_date'
     published.boolean = True
-    published.short_description = 'Published ?'
+    published.short_description = 'Currently Running'
 
     # Human-readable name for Coupon
     def __str__(self):
