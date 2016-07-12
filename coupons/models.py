@@ -3,17 +3,20 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
+from accounts.models import Person
+
 # Coupon Class Specifier
 class Coupon(models.Model):
     # Creator of coupon
     owner = models.ForeignKey(
-        'auth.User',
+        Person,
         on_delete=models.CASCADE,
         editable=False)
     title = models.CharField(max_length=100)
     code = models.CharField(max_length=10, primary_key=True)
     terms = models.TextField()
-#   claimants = models.ManyToManyField(Person, through='Claim')
+    claimants = models.ManyToManyField(Person, through='Claim',
+                                       related_name='Claimants')
 
     create_date = models.DateTimeField(
         default=timezone.now, editable=False)
@@ -38,3 +41,10 @@ class Coupon(models.Model):
     # Human-readable name for Coupon
     def __str__(self):
         return self.title
+
+# Relationship between Coupon and User
+class Claim(models.Model):
+    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE)
+    user = models.ForeignKey(Person, on_delete=models.CASCADE)
+    date_claimed = models.DateTimeField(
+        default=timezone.now, editable=False)

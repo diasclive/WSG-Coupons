@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from .models import Coupon
+from .models import Coupon, Claim
+
+class ClaimInline(admin.TabularInline):
+    model = Claim
+    extra = 1
 
 class CouponAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -8,6 +12,7 @@ class CouponAdmin(admin.ModelAdmin):
         ('Date Information', {'fields': ['create_date','publish_date','validity']}),
         ('Terms & Conditions', {'fields': ['terms'], 'classes': ['collapse']}),
     ]
+    inlines = [ClaimInline]
     list_display = ('title', 'code', 'published', 'publish_date')
     list_filter = ['publish_date']
     search_fields = ['title']
