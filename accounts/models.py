@@ -1,8 +1,10 @@
 from django.db import models
-from django.core import validators
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.utils.http import urlquote
+from django.utils.translation import ugettext_lazy as _
+from django.core.mail import send_mail
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.core import validators
 
 # Custom User manager
 class PersonManager(BaseUserManager):
@@ -12,8 +14,11 @@ class PersonManager(BaseUserManager):
         """
         Creates and saves a User with the given username, email and password.
         """
+        now = timezone.now()
         if not username:
             raise ValueError('The given username must be set')
+        if not email:
+            raise ValueError('The given email must be set')
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)
@@ -39,7 +44,7 @@ class PersonManager(BaseUserManager):
 
 
 # Custom User object
-class Person(AbstractBaseUser):
+class Person(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         _('username'),
         max_length=30,
@@ -58,8 +63,8 @@ class Person(AbstractBaseUser):
     )
     first_name = models.CharField(_('first name'), max_length=30)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
-    email = models.EmailField(_('email address'))
-    date_of_birth = models.DateField(_('date of birth'))
+    email = models.EmailField(_('email address'), unique=True)
+    date_of_birth = models.DateField(_('date of birth'), null=True)
     anniversary = models.DateField(_('anniversary'), blank=True, null=True)
     is_staff = models.BooleanField(
         _('staff status'),
@@ -85,6 +90,9 @@ class Person(AbstractBaseUser):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
+    def get_absolute_url(self):
+        return "/users/%s/" % urlquote(self.username)
+
     def get_full_name(self):
         """
         Returns the first_name plus the last_name, with a space in between.
@@ -95,3 +103,10 @@ class Person(AbstractBaseUser):
     def get_short_name(self):
         "Returns the short name for the user."
         return self.first_name
+
+
+    def email_user(self, subject, message, from_email=None):
+        """
+        Sends an email to this User.
+        """
+        send_mail(subject, message, from_email, [self.email])

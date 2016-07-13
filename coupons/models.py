@@ -7,16 +7,15 @@ from accounts.models import Person
 
 # Coupon Class Specifier
 class Coupon(models.Model):
-    # Creator of coupon
     owner = models.ForeignKey(
-        'auth.User',
+        Person,
         on_delete=models.CASCADE,
         editable=False)
     title = models.CharField(max_length=100)
-    code = models.CharField(max_length=10, primary_key=True)
+    code = models.CharField(max_length=10, unique=True)
     terms = models.TextField()
     claimants = models.ManyToManyField(Person, through='Claim',
-                                       related_name='Claimants')
+                                       related_name='Claimed')
 
     create_date = models.DateTimeField(
         default=timezone.now, editable=False)
