@@ -1,9 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 {% if latest_coupon_list %}
     <ul>
     {% for coupon in latest_coupon_list %}
-        <li><a href="{% url 'coupon:detail' coupon.code %}">{{ coupon.title }}</a></li>
+        <li><a href="{% url 'coupons:detail' coupon.id %}">{{ coupon.title }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
     <p>No coupons are available.</p>
 {% endif %}
+
+{% endblock %}
