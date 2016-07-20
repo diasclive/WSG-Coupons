@@ -1,8 +1,14 @@
-<h1>{{ Coupon.title }}</h1>
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ coupon.title }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'coupons:claim' coupon.code %}" method="post">
+<form action="{% url 'coupons:claim' coupon.id %}" method="post">
 {% csrf_token %}
 <input type="submit" value="Claim!" />
 </form>
+
+{% endblock %}

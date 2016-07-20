@@ -19,7 +19,7 @@ class DetailView(generic.DetailView):
     model = Coupon
     template_name = 'coupons/detail.html'
     def get_queryset(self):
-        return Coupon.objects.filter(pub_date__lte=timezone.now())
+        return Coupon.objects.filter(publish_date__lte=timezone.now())
 
 class ResultsView(generic.DetailView):
     model = Coupon
