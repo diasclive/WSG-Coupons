@@ -5,6 +5,7 @@ from django.views import generic
 from django.utils import timezone
 
 from .models import Coupon, Claim
+from accounts.models import Person
 
 class IndexView(generic.ListView):
     template_name = 'coupons/index.html'
@@ -25,20 +26,24 @@ class ResultsView(generic.DetailView):
     model = Coupon
     template_name = 'coupons/results.html'
 
-def claim(request, coupon_code):
-    coupon = get_object_or_404(Coupon, pk=coupon_code)
-    try:
-        user = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Person.DoesNotExist):
-        # Redisplay the question voting form.
+def claim(request, coupon_id):
+    coupon = get_object_or_404(Coupon, pk=coupon_id)
+    if request.user.is_authenticated():
+        user = Person.objects.get(pk=request.user.id)
+        if Claim.objects.filter(user=user, coupon=coupon).exists():
+            # Redisplay the coupon detail form.
+            return render(request, 'coupons/detail.html', {
+                'coupon': coupon,
+                'error_message': "You have already claimed this coupon.",
+            })
+        else:
+            claim = Claim.objects.create(coupon=coupon, user=user)
+            # Always return an HttpResponseRedirect after successfully dealing
+            # with POST data. This prevents data from being posted twice if a
+            # user hits the Back button.
+            return HttpResponseRedirect(reverse('coupons:index'))
+    else:
         return render(request, 'coupons/detail.html', {
             'coupon': coupon,
-            'error_message': "You didn't select a choice.",
+            'error_message': "You need to be logged in to claim.",
         })
-    else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
