@@ -102,7 +102,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Auth System
+
 AUTH_USER_MODEL = 'accounts.Person'
+
+LOGIN_REDIRECT_URL = '/coupons/'
+
+PASSWORD_RESET_TIMEOUT_DAYS = 2
+
+
+# Domain to set on CSRF token
+
+# CSRF_COOKIE_DOMAIN = '.example.com'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -122,3 +134,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Email Settings
+
+DEFAULT_FROM_EMAIL = 'webmaster@example.com'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'localhost'
+
+EMAIL_HOST_PASSWORD = ''
+
+EMAIL_HOST_USER = ''
+
+EMAIL_PORT = 25
+
