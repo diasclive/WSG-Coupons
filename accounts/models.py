@@ -64,6 +64,10 @@ class Person(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     email = models.EmailField(_('email address'), unique=True)
+
+    phone_number=models.CharField(max_length=13,validators=[
+        validators.RegexValidator(r'^\+91\d{10}$', _("Phone number not entered in format +91xxxxxxxxxx."))
+    ])
     date_of_birth = models.DateField(_('date of birth'), null=True)
     anniversary = models.DateField(_('anniversary'), blank=True, null=True)
     is_staff = models.BooleanField(
