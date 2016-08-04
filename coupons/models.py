@@ -3,7 +3,7 @@ import qrcode
 
 from django.db import models
 from django.utils import timezone
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from accounts.models import Person
 from WSG.settings import BASE_DIR, SITE_URL
@@ -76,7 +76,8 @@ class Coupon(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        super(Coupon, self).save()
+        if self.id is None:
+            super(Coupon, self).save()
         self.gen_qrcode()
         super(Coupon, self).save()
 

@@ -1,0 +1,7 @@
+###### Requirements ######
+# These dependencies must be installed before attempting to run this project
+# Install with: pip install -r requirements.txt
+Django >= 1.10
+Pillow >= 3.3.0
+qrcode >= 5.3
+six >= 1.10.0
