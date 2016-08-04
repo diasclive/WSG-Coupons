@@ -1,51 +1,25 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
-<style>
-nav {
-    list-style-type: none;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
-
-li {
-    float: left;
-    margin-left: -4px;
-}
-
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
-    background-color: #111;
-}
-
-.active {
-    background-color: #5db761;
-}
-</style>
   <head>
-  	<meta charset="utf-8">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{% block title %}{% endblock %}</title>
-  	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-  	<link rel="stylesheet" href="{% static 'css/normalize.css' %}">
-  	<link rel="stylesheet" href="{% static 'css/skeleton.css' %}">          
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skeleton.css' %}">
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
   </head>
   <body>
-<nav id ="header">
-  <li><a href="{% url 'coupons' %">COUPONS</a></li><!--this url i just put for timing.Needs to be modified-->
-  <li style="float:right"><a class="active" href="{% url 'accounts:login' %}">Login/Register</a></li>
-</nav>
-  	<div class="container">
+    <nav id ="header">
+      <li><a href="{% url 'coupons:index' %}">COUPONS</a></li>
+      <li style="float:right"><a class="active" href="{% url 'accounts:login' %}">Login/Register</a></li>
+    </nav>
+    <div class="container">
       {% block content %}{% endblock %}
-  	</div>
+    </div>
   </body>
 </html>
