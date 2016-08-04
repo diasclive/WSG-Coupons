@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Domain Name
+
+SITE_URL = 'http://great-geek.no-ip.org:8000'
 
 # Application definition
 
@@ -102,6 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Auth System
 
 AUTH_USER_MODEL = 'accounts.Person'
@@ -136,8 +140,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static'),
 ]
+
 
 # Email Settings
 
@@ -152,4 +157,3 @@ EMAIL_HOST_PASSWORD = ''
 EMAIL_HOST_USER = ''
 
 EMAIL_PORT = 25
-

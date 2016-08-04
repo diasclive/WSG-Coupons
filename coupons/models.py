@@ -1,9 +1,12 @@
 import datetime
+import qrcode
 
 from django.db import models
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 from accounts.models import Person
+from WSG.settings import BASE_DIR, SITE_URL
 
 # Coupon Class Specifier
 class Coupon(models.Model):
@@ -13,6 +16,10 @@ class Coupon(models.Model):
         editable=False)
     title = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True)
+    qr = models.ImageField(
+        upload_to='static/qrcodes/',
+        null=True,
+        blank=True)
     terms = models.TextField()
     claimants = models.ManyToManyField(Person, through='Claim',
                                        related_name='Claimed')
@@ -36,6 +43,42 @@ class Coupon(models.Model):
     published.admin_order_field = 'publish_date'
     published.boolean = True
     published.short_description = 'Currently Running'
+
+    def get_absolute_url(self):
+        return reverse('coupons:detail', args=[str(self.id)])
+
+    def gen_qrcode(self):
+        qrc = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qrc.add_data(SITE_URL + self.get_absolute_url())
+        qrc.make(fit=True)
+
+        img = qrc.make_image()
+
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from io import BytesIO
+
+        temp_handle = BytesIO()
+        img.save(temp_handle, 'png')
+        temp_handle.seek(0)
+
+        suf = SimpleUploadedFile(self.code,
+                temp_handle.read(), content_type='image/png')
+
+        self.qr.save(
+            '%s.png' % self.code,
+            suf,
+            save=False
+        )
+
+    def save(self, *args, **kwargs):
+        super(Coupon, self).save()
+        self.gen_qrcode()
+        super(Coupon, self).save()
 
     # Human-readable name for Coupon
     def __str__(self):
