@@ -1,15 +1,16 @@
 {% extends "base.html" %}
-{% load static %}
+
+{% block title %}Coupons{% endblock %}
 
 {% block content %}
 
 {% if latest_coupon_list %}
-	<ul>
-		{% for coupon in latest_coupon_list %}
-			<a href="{% url 'coupons:detail' coupon.id %}">
-				<img src="{% static "qrcodes/" %}{{ coupon.code }}.png"/>
-			</a>
- 		{% endfor %}
+  <ul>
+    {% for coupon in latest_coupon_list %}
+      <a href="{% url 'coupons:detail' coupon.id %}">
+        <img src="{{ STATIC_URL }}/{{ coupon.qr.url }}"/>
+      </a>
+    {% endfor %}
   </ul>
 {% else %}
   <p>No coupons are available.</p>

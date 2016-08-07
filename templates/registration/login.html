@@ -4,18 +4,18 @@
 
 {% if form.errors %}
 <div class="row">
-	<div class="five columns offset-by-three">
-		<p class="u-danger ">Your username and password didn't match.<br />Please try again.</p>
-	</div>
+  <div class="five columns offset-by-four">
+    <p class="u-danger ">Your username and password didn't match.<br/>Please try again.</p>
+  </div>
 </div>
 {% endif %}
 
 {% if next %}
     {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
     {% else %}
-    <p>Please login to see this page.</p>
+      <p>Please login to see this page.</p>
     {% endif %}
 {% endif %}
 
@@ -23,30 +23,39 @@
 {% csrf_token %}
 
 <div class="row">
-	<div class="four columns offset-by-three">
+  <div class="four columns offset-by-four">
     {{ form.username.label_tag }}
-    <input class="u-full-width" type="text" placeholder="user@email.com" {{ form.username }}
-   </div>
+    <input class="u-full-width" id="id_username" maxlength="30" name="username" type="text" autofocus required>
+  </div>
 </div>
 
 <div class="row">
-	<div class="four columns offset-by-three">
-    <label>{{ form.password.label_tag }}</label>
-    <input class="u-full-width" type="password" placeholder="password" {{ form.password }}
-	</div>
+  <div class="four columns offset-by-four">
+    {{ form.password.label_tag }}
+    <input class="u-full-width" id="id_password" name="password" type="password" required>
+  </div>
 </div>
 
 <div class="row">
-	<div class="two columns offset-by-three">
-		<input class="button-primary" type="submit" value="Login">
+  <div class="four columns offset-by-four">
+    <input class="button-primary u-pull-right" type="submit" value="Login">
     <input type="hidden" name="next" value="{{ next }}" />
-	</div>
-		{# Assumes you setup the password_reset view in your URLconf #}
-		<a class="button" href="{% url 'accounts:password_reset' %}">Lost password?</a>
+  </div>
 </div>
 
 </form>
 
-
+<div class="row">
+  <div class="three columns offset-by-three">
+    <a href="{% url 'accounts:password_reset' %}">
+      <button class="u-full-width">Reset Password</button>
+    </a>
+  </div>
+  <div class="three columns">
+    <a href="{% url 'accounts:login' %}">
+      <button class="u-full-width">Register</button>
+    </a>
+  </div>
+</div>
 
 {% endblock %}
