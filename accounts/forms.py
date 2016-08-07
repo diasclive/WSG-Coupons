@@ -8,12 +8,13 @@ class PersonCreationForm(UserCreationForm):
     password.
     """
 
-    def __init__(self, *args, **kargs):
-        super(PersonCreationForm, self).__init__(*args, **kargs)
+    def __init__(self, *args, **kwargs):
+        super(PersonCreationForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Person
-        fields = ("username",)
+        fields = ("username","first_name","last_name","date_of_birth","anniversary","phone_number","email",)
+
 
 class PersonChangeForm(UserChangeForm):
     """A form for updating users. Includes all the fields on
@@ -21,8 +22,8 @@ class PersonChangeForm(UserChangeForm):
     password hash display field.
     """
 
-    def __init__(self, *args, **kargs):
-        super(PersonChangeForm, self).__init__(*args, **kargs)
+    def __init__(self, *args, **kwargs):
+        super(PersonChangeForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Person

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<form method="post" action=".">
+{% csrf_token %}
+{{ form.non_field_errors }}
+  <div class="row">
+    <div class="six columns">
+      {{ form.username.errors }}
+      <label for="id_username">Username</label>
+      <input class="u-full-width" id="id_username" name="username" type="text" placeholder="Username" required>
+    </div>
+  </div>
+  <div class="row">
+    <div class="six columns">
+      {{ form.first_name.errors }}
+      <label for="id_first_name">First Name</label>
+      <input class="u-full-width" id="id_first_name" name="first_name" type="text" pattern="[a-zA-Z][a-zA-Z .'-]{1,24}" placeholder="John" required>
+    </div>
+    <div class="six columns">
+      {{ form.last_name.errors }}
+      <label for="id_last_name">Last Name</label>
+      <input class="u-full-width" id="id_last_name" name="last_name" pattern="[a-zA-Z][a-zA-Z .'-]{1,24}" type="text" placeholder="Doe">
+    </div>
+  </div>
+  <div class="row">
+    <div class="six columns">
+      {{ form.date_of_birth.errors }}
+      <label for="id_date_of_birth">Date Of Birth</label>
+      <input class="u-full-width" id="id_date_of_birth" name="date_of_birth" type="date" required>
+    </div>
+    <div class="six columns">
+      {{ form.anniversary.errors }}
+      <label for="id_anniversary">Anniversary</label>
+      <input class="u-full-width" id="id_anniversary" name="anniversary" type="date">
+    </div>
+  </div>
+  <div class="row">
+    <div class="six columns">
+      {{ form.phone_number.errors }}
+      <label for="id_phone_number">Phone number</label>
+      <input class="u-full-width" id="id_phone_number" name="phone_number" pattern="[0-9 +]{1,14}" type="tel" placeholder="+91xxxxxxxxxx" required>
+    </div>
+    <div class="six columns">
+      {{ form.email.errors }}
+      <label for="id_email">Email-ID</label>
+      <input class="u-full-width" id="id_email" name="email" type="email" placeholder="abc@xyz.com" required>
+    </div>
+  </div>
+  <div class="row">
+    <div class="six columns">
+      {{ form.password1.errors }}
+      <label for="id_password1">Password</label>
+      <input class="u-full-width" id="id_password1" name="password1" type="password" required>
+    </div>
+    <div class="six columns">
+      {{ form.password2.errors }}
+      <label for="id_password2">Re-enter Password</label>
+      <input class="u-full-width" id="id_password2" name="password2" type="password" required>
+    </div>
+  </div>
+  <input class="u-pull-right" type="submit" value="Register" />
+</form>
+{% endblock %}
