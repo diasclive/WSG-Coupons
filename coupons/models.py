@@ -8,6 +8,9 @@ from django.urls import reverse
 from accounts.models import Person
 from WSG.settings import BASE_DIR, SITE_URL
 
+def add_days():
+    return timezone.now() + timezone.timedelta(days=7)
+
 # Coupon Class Specifier
 class Coupon(models.Model):
     owner = models.ForeignKey(
@@ -30,16 +33,16 @@ class Coupon(models.Model):
     publish_date = models.DateTimeField(
         default=timezone.now)
     # When this coupon expires
-    validity = models.DateTimeField(
-        default=timezone.now)
+    expire_date = models.DateTimeField(
+        default=add_days)
     '''
     # Use this method when we get to postgres
-    validity = models.DurationField(
+    expire_date = models.DurationField(
         default=datetime.timedelta(days=7), help_text="1 12:00 = 1 day + 12 hours")'''
 
     # Method to determine if coupon is currently published or not
     def published(self):
-        return self.publish_date <= timezone.now() <= self.validity
+        return self.publish_date <= timezone.now() <= self.expire_date
     published.admin_order_field = 'publish_date'
     published.boolean = True
     published.short_description = 'Currently Running'
