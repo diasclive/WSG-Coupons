@@ -48,6 +48,9 @@ class Coupon(models.Model):
         return reverse('coupons:detail', args=[str(self.id)])
 
     def gen_qrcode(self):
+        if self.qr:
+            self.qr.storage.delete(self.qr.path)
+
         qrc = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -77,9 +80,13 @@ class Coupon(models.Model):
 
     def save(self, *args, **kwargs):
         if self.id is None:
-            super(Coupon, self).save()
+            super(Coupon, self).save(*args, **kwargs)
         self.gen_qrcode()
-        super(Coupon, self).save()
+        super(Coupon, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.qr.storage.delete(self.qr.path)
+        super(Coupon, self).delete(*args, **kwargs)
 
     # Human-readable name for Coupon
     def __str__(self):
