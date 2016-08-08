@@ -3,17 +3,34 @@
 {% block title %}Coupons{% endblock %}
 
 {% block content %}
-
-{% if latest_coupon_list %}
-  <ul>
-    {% for coupon in latest_coupon_list %}
-      <a href="{% url 'coupons:detail' coupon.id %}">
-        <img src="{{ STATIC_URL }}/{{ coupon.qr.url }}"/>
-      </a>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No coupons are available.</p>
+{% for coupon in latest_coupon_list %}
+{% if forloop.counter0|divisibleby:"2" %}
+<div class="row">
 {% endif %}
-
+<div class="six columns">
+  <div class="card horizontal">
+    <div class="card-image">
+      <img class="u-full-width" src="{{ STATIC_URL }}/{{ coupon.qr.url }}"/>
+    </div>
+    <div class="card-stacked">
+      <div class="card-content">
+        <h5>{{ coupon.title }}</h5>
+        <p>Expires in: {{ coupon.expire_date|timeuntil }}</p>
+      </div>
+      <div class="card-action">
+        <a class="button u-pull-right" href="{% url 'coupons:detail' coupon.id %}">Claim!</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% if forloop.counter|divisibleby:"2" %}
+</div>
+{% endif %}
+{% if forloop.counter0|divisibleby:"2" and forloop.last %}
+</div>
+{% endif %}
+{% empty %}
+<p>No coupons are available.</p>
+{% endfor %}
 {% endblock %}
+
