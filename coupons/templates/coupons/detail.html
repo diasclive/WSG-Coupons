@@ -1,14 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1>{{ coupon.title }}</h1>
-
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<div class="row">
+  <div class="six columns">
+    <h4>{{ coupon.title }}</h4>
+    <p>Published on: {{ coupon.publish_date }}</p>
+    <p>Expires in: {{ coupon.expire_date|timeuntil }}</p>
+    <p>Offer provided by: {{ coupon.owner }}</p>
+    <p>Description: {{ coupon.description }}</p>
+  </div>
+  <div class="four columns offset-by-one">
+    <img class="u-full-width" src="/{{coupon.qr.url}}"/>
+  </div>
+</div>
+<div class="row">
+  <h5>Terms and Conditions</h5>
+  <pre><code class="terms">{{coupon.terms}}</code></pre>
+</div>
 
 <form action="{% url 'coupons:claim' coupon.id %}" method="post">
 {% csrf_token %}
-<input type="submit" value="Claim!" />
+<input class="u-pull-right" type="submit" value="Claim!"/>
 </form>
 
 {% endblock %}

@@ -46,7 +46,7 @@
     display: flex;
 }
 .card.horizontal .card-image {
-        max-width: 0;
+    max-width: 0;
 }
 @media (min-width: 550px) {
     .card.horizontal .card-image {
@@ -74,4 +74,12 @@
     background-color: inherit;
     border-top: 1px solid #eee;
     padding: 0.5rem 2rem;
+}
+
+.terms {
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow: auto;
+    max-height: 500px;
 }
