@@ -24,6 +24,7 @@ class Coupon(models.Model):
         null=True,
         blank=True)
     terms = models.TextField()
+    description = models.CharField(max_length=200)
     claimants = models.ManyToManyField(Person, through='Claim',
                                        related_name='Claimed')
 

@@ -10,7 +10,7 @@ class ClaimInline(admin.TabularInline):
 
 class CouponAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Basic Information', {'fields': ['title','code','owner']}),
+        ('Basic Information', {'fields': ['title','code','owner', 'description']}),
         ('Date Information', {'fields': ['create_date','publish_date','expire_date']}),
         ('Terms & Conditions', {'fields': ['terms'], 'classes': ['collapse']}),
     ]
