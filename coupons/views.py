@@ -1,9 +1,10 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
+from .forms import CouponCreationForm
 from .models import Coupon, Claim
 from accounts.models import Person
 
@@ -54,3 +55,15 @@ def claim(request, coupon_id):
             'coupon': coupon,
             'error_message': "You need to be logged in to claim.",
         })
+
+def createcoupon(request):
+    if request.method == 'POST':
+        form = CouponCreationForm(request.POST)
+        if form.is_valid():
+            coupon = form.save(commit=False)
+            coupon.owner = request.user
+            coupon = form.save()
+            return redirect('coupons:index')
+    else:
+        form = CouponCreationForm()
+    return render(request, 'coupons/create.html', {'form':form})
