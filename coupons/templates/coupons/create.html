@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% block title %}create coupon{% endblock %}
+{% block title %}Create Coupon{% endblock %}
 {% block content %}
-    <form method="post" action=".">{% csrf_token %}
+<form method="post" action=".">
 {% csrf_token %}
 {{ form.non_field_errors }}
   <div class="row">
@@ -15,13 +15,12 @@
       <input class="u-full-width" id="id_code" name="code" type="text" placeholder="Code" required>
       {{ form.code.errors }}
     </div>
-    </div>
-    <div class="row">
+  </div>
+  <div class="row">
     <div class="twelve columns">
       <label for="id_description">Description</label>
-      <textarea cols="50" rows="3" class="u-full-width" id="id_description" name="description" type="text" placeholder="Coupon Description" required style="margin-top: 0px; margin-bottom: 15px; height: 30px; width: 960px"> 
+      <textarea class="u-full-width" id="id_description" name="description" type="text" placeholder="Coupon Description" required style="max-height: 30px; max-width: 100%;"></textarea>
       {{ form.description.errors }}
-      </textarea>
     </div>
   </div>
   <div class="row">
@@ -39,11 +38,10 @@
   <div class="row">
     <div class="tewelve columns">
       <label for="id_terms">Terms and Conditions</label>
-      <textarea cols="50" rows="5" class="u-full-width" id="id_terms" name="terms" type="text" placeholder="Terms and Conditions" required style="margin-top: 0px; margin-bottom: 15px; height: 150px; width: 960px"> 
+      <textarea class="u-full-width" id="id_terms" name="terms" type="text" placeholder="Terms and Conditions" required style="max-width: 100%;"></textarea>
       {{ form.terms.errors }}
-      </textarea>
     </div>
-    </div>
+  </div>
   <input class="u-pull-right" type="submit" value="Create Coupon" />
 </form>
 {% endblock %}
