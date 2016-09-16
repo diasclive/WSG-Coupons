@@ -25,6 +25,9 @@
           <a class="navbar-link" href="{% url 'accounts:logout' %}">
             <button class="button">Logout</button>
           </a>
+          <a class="navbar-link" href="{% url 'accounts:edit_profile' %}">
+             <button class="button">Edit Profile</button>
+          </a>
         {% else %}
           <a class="navbar-link" href="{% url 'accounts:login' %}">
             <button class="button-primary">Login / Register</button>

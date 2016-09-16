@@ -15,4 +15,5 @@ urlpatterns = [
         auth_views.password_reset_confirm, {'post_reset_redirect':'accounts:password_reset_complete', }, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
     url(r'^register/$', views.register, name='register'),
+    url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
 ]
