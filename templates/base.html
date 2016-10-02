@@ -22,12 +22,24 @@
         </li>
         <li style="float:right" class="navbar-item">
         {% if user.is_authenticated %}
-          <a class="navbar-link" href="{% url 'accounts:logout' %}">
-            <button class="button">Logout</button>
-          </a>
-          <a class="navbar-link" href="{% url 'accounts:edit_profile' %}">
-             <button class="button">Edit Profile</button>
-          </a>
+  <div id="dropdwn">
+     <div class="wrapper">
+         <div class="content">
+             <ul>
+                 <a href="{% url 'accounts:logout' %}"><li>Logout</li></a>
+                 <a href="{% url 'accounts:edit_profile' %}"><li>Edit profile</li></a>
+             </ul>
+         </div>
+         <div class="parent">Hello {{ request.user.first_name }}</div>
+     </div>
+       <!-- This is for hover 
+          <div class="dropdown">
+            <button class="dropbtn">Hello {{ request.user.first_name }}</button>
+               <div class="dropdown-content">
+                  <a href="{% url 'accounts:logout' %}">Logout</a>
+                  <a href="{% url 'accounts:edit_profile' %}">Edit profile</a>
+               </div>
+         </div> -->
         {% else %}
           <a class="navbar-link" href="{% url 'accounts:login' %}">
             <button class="button-primary">Login / Register</button>
